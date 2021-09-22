@@ -1,19 +1,25 @@
 {
   "name": "chatBot",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "./src/server.js",
   "license": "MIT",
   "scripts": {
-    "start": "nodemon index.js",
+    "dev": "nodemon ./src/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
     "actions-on-google": "^3.0.0",
+    "bcrypt": "^5.0.1",
     "dialogflow": "^1.2.0",
     "dialogflow-fulfillment": "^0.6.1",
+    "dotenv": "^10.0.0",
     "express": "^4.17.1",
+    "joi": "^17.4.2",
+    "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.0.7",
     "morgan": "^1.10.0",
-    "nodemon": "^2.0.12"
+    "nodemon": "^2.0.12",
+    "socket.io": "^4.2.0",
+    "validators": "^0.3.1"
   }
 }
