@@ -10,6 +10,12 @@ const messageSchema = new Schema(
       minlength: 1,
       maxlength: 1000,
     },
+    respose: {
+      type: String,
+      trim: true,
+      minlength: 1,
+      maxlength: 1000,
+    },
     user: {
       type: Schema.Types.ObjectId,
       ref: "User",

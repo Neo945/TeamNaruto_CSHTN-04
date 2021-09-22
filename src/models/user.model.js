@@ -54,7 +54,7 @@ function getToken(id) {
     expiresIn: 3 * 24 * 3600,
   });
 }
-userSchemas.statics.login = async function (email, password) {
+userSchema.statics.login = async function (email, password) {
   const user = await this.findOne({ email });
   if (await bcrypt.compare(password, user.password)) {
     return getToken(user._id);
