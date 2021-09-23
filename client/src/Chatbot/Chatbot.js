@@ -21,17 +21,16 @@ function Chatbot() {
       text,
     };
     try {
-      const response = await Axios.post(
-        "/api/dialogflow/textQuery",
-        textQueryVariables
-      );
-
-      for (let content of response.data.fulfillmentMessages) {
-        conversation = {
-          who: "bot",
-          content: content,
-        };
-      }
+      // const response = await Axios.post(
+      //   "/api/dialogflow/textQuery",
+      //   textQueryVariables
+      // );
+      // for (let content of response.data.fulfillmentMessages) {
+      //   conversation = {
+      //     who: "bot",
+      //     content: content,
+      //   };
+      // }
     } catch (error) {
       conversation = {
         who: "bot",
@@ -49,16 +48,16 @@ function Chatbot() {
       event,
     };
     try {
-      const response = await Axios.post(
-        "/api/dialogflow/eventQuery",
-        eventQueryVariables
-      );
-      for (let content of response.data.fulfillmentMessages) {
-        let conversation = {
-          who: "bot",
-          content: content,
-        };
-      }
+      // const response = await Axios.post(
+      //   "/api/dialogflow/eventQuery",
+      //   eventQueryVariables
+      // );
+      // for (let content of response.data.fulfillmentMessages) {
+      //   let conversation = {
+      //     who: "bot",
+      //     content: content,
+      //   };
+      // }
     } catch (error) {
       let conversation = {
         who: "bot",
