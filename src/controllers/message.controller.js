@@ -13,4 +13,10 @@ module.exports = {
     });
     res.send(message);
   },
+  getMessage: async (req, res) => {
+    const messages = await Message.find({ user: req.user._id })
+      .sort({ createdAt: -1 })
+      .limit(parseInt(req.query.limit) * 10);
+    res.send(messages);
+  },
 };
