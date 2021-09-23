@@ -5,14 +5,14 @@ const messageSchema = new Schema(
   {
     message: {
       type: String,
-      required: true,
+      default: "",
       trim: true,
-      minlength: 1,
       maxlength: 1000,
     },
-    respose: {
+    response: {
       type: String,
       trim: true,
+      required: true,
       minlength: 1,
       maxlength: 1000,
     },

@@ -15,7 +15,7 @@ module.exports = {
       user: req.user._id,
       response: response[0].queryResult.fulfillmentText,
     });
-    res.send({ message });
+    res.send({ message, user: req.user.username });
   },
   getMessage: async (req, res) => {
     const messages = await Message.find({ user: req.user._id })
@@ -27,6 +27,11 @@ module.exports = {
     const requestData = requestEvent(req.body.event);
     console.log(requestData);
     const response = await sendRequest(requestData);
-    res.send({ message: response[0].queryResult.fulfillmentText });
+    const message = await Message.create({
+      user: req.user._id,
+      response: response[0].queryResult.fulfillmentText,
+    });
+    console.log(message);
+    res.send({ message, user: req.user.username });
   },
 };
