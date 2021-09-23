@@ -55,3 +55,55 @@ yarn-error.log*
 {
   /* </div> */
 }
+import React from "react";
+import Chatbot from "./Chatbot/Chatbot";
+import Login from "./Chatbot/login";
+import Register from "./Chatbot/register";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+
+function App() {
+  const [user, setUser] = React.useState(
+    JSON.parse(localStorage.getItem("user"))
+  );
+  React.useEffect(() => {
+    if (user === null) {
+      fetch("http://localhost:4000/api/user/get", {
+        method: "GET",
+        credentials: "include",
+        mode: "cors",
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+        },
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+          if (data.user) {
+            localStorage.setItem("user", JSON.stringify(data));
+            setUser(data);
+          } else {
+            localStorage.setItem("user", null);
+            setUser(null);
+          }
+        });
+    }
+  }, []);
+
+  return (
+    <Router>
+      <Switch>
+        <Route path="/chatbot">
+          <Chatbot user={user} />
+        </Route>
+        <Route path="/login">
+          <Login user={user} />
+        </Route>
+        <Route path="/register">
+          <Register user={user} />
+        </Route>
+      </Switch>
+    </Router>
+  );
+}
+
+export default App;

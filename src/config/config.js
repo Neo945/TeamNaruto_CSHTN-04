@@ -7,6 +7,7 @@ dotenv.config({ path: path.join(__dirname, "/.env") });
 
 const envSchema = Joi.object()
   .keys({
+    SECRET_KEY: Joi.string().required(),
     type: Joi.string().required(),
     project_id: Joi.string().required(),
     dialogFlowSessionID: Joi.string().default("bot-session"),

@@ -2,35 +2,38 @@ import React, { useEffect } from "react";
 import Message from "./Sections/Message";
 import { List, Icon, Avatar } from "antd";
 import Card from "./Sections/Card";
-function Chatbot() {
+function Chatbot(params) {
+  const [messages, setMessages] = React.useState([]);
   useEffect(() => {
-    eventQuery("welcomeToMyWebsite");
+    eventQuery("Welcome");
   }, []);
 
   const textQuery = async (text) => {
     let conversation = {
-      who: "user",
+      who: params.user.username,
       content: {
         text: {
           text: text,
         },
       },
     };
+    setMessages([...messages, conversation]);
 
-    const textQueryVariables = {
-      text,
-    };
     try {
-      // const response = await Axios.post(
-      //   "/api/dialogflow/textQuery",
-      //   textQueryVariables
-      // );
-      // for (let content of response.data.fulfillmentMessages) {
-      //   conversation = {
-      //     who: "bot",
-      //     content: content,
-      //   };
-      // }
+      const resType = await fetch("http://localhost:5000/api/message/send", {
+        method: "GET",
+        credentials: "include",
+        mode: "cors",
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+        },
+      });
+      const response = await resType.json();
+      conversation = {
+        who: "bot",
+        content: response.message,
+      };
+      setMessages([...messages, conversation]);
     } catch (error) {
       conversation = {
         who: "bot",
@@ -40,24 +43,26 @@ function Chatbot() {
           },
         },
       };
+      setMessages([...messages, conversation]);
     }
   };
 
   const eventQuery = async (event) => {
-    const eventQueryVariables = {
-      event,
-    };
     try {
-      // const response = await Axios.post(
-      //   "/api/dialogflow/eventQuery",
-      //   eventQueryVariables
-      // );
-      // for (let content of response.data.fulfillmentMessages) {
-      //   let conversation = {
-      //     who: "bot",
-      //     content: content,
-      //   };
-      // }
+      const resType = await fetch("http://localhost:5000/api/message/event", {
+        method: "GET",
+        credentials: "include",
+        mode: "cors",
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+        },
+      });
+      const response = await resType.json();
+      let conversation = {
+        who: "bot",
+        content: response.message,
+      };
+      setMessages([...messages, conversation]);
     } catch (error) {
       let conversation = {
         who: "bot",
@@ -67,6 +72,7 @@ function Chatbot() {
           },
         },
       };
+      setMessages([...messages, conversation]);
     }
   };
 
@@ -133,7 +139,7 @@ function Chatbot() {
       }}
     >
       <div style={{ height: 644, width: "100%", overflow: "auto" }}>
-        {/* {renderMessage(messagesFromRedux)} */}
+        {renderMessage(messages)}
       </div>
       <input
         style={{

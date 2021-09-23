@@ -15,7 +15,7 @@ module.exports = {
       user: req.user._id,
       response: response[0].queryResult.fulfillmentText,
     });
-    res.send(message);
+    res.send({ message });
   },
   getMessage: async (req, res) => {
     const messages = await Message.find({ user: req.user._id })

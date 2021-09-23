@@ -1,14 +1,20 @@
 module.exports = {
-  errorHandler: (req, res, callback) => {
+  errorHandler: async (req, res, callback) => {
     try {
-      callback();
+      await callback();
     } catch (error) {
-      const err = Object.keys(error).length ? error : { message: error };
-      res.status(err.status || 500).json({
-        status: err.status || 500,
-        message: err.message || "Internal Server Error",
-        error: err.error || "Internal Server Error",
-      });
+      try {
+        console.log(error);
+        const data = Object.values(error.errors);
+        const error1 = [];
+        data.forEach((ele) => {
+          error1.push(ele.message);
+        });
+        res.status(403).json({ message: error1 });
+      } catch (error) {
+        console.log(error);
+        res.status(500).json({ message: "Something went wrong" });
+      }
     }
   },
 };

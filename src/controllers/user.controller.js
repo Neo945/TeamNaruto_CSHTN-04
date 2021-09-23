@@ -1,6 +1,10 @@
 const User = require("../models/user.model");
+const { errorHandler } = require("../utils/errorHandler");
 
 module.exports = {
+  getUser: (req, res) => {
+    res.status(200).send({ user: req.user });
+  },
   registerUser: (req, res) => {
     errorHandler(req, res, async () => {
       const newUser = await User.create({ ...req.body });
@@ -15,7 +19,7 @@ module.exports = {
       const token = await User.login(email, password);
       if (token) {
         res.cookie("jwt", token, {
-          maxAge: require("../config/config").TOKEN_LENGTH,
+          maxAge: 259200000,
         });
         res.status(201).json({ mesage: "login Successful" });
       } else {
