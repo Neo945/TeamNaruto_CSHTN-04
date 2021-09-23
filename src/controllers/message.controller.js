@@ -1,10 +1,14 @@
 const errorHandler = require("../utils/errorHandler");
 const Message = require("../models/message.model");
-const { sendRequest, request } = require("../config/dialogflow.config");
+const {
+  sendRequest,
+  requestMessage,
+  requestEvent,
+} = require("../config/dialogflow.config");
 
 module.exports = {
   saveRequestMessage: async (req, res) => {
-    const requestData = request(req.body.message, null);
+    const requestData = requestMessage(req.body.message);
     const response = await sendRequest(requestData);
     const message = await Message.create({
       ...req.body,
@@ -20,7 +24,8 @@ module.exports = {
     res.send(messages);
   },
   getMessageEvent: async (req, res) => {
-    const requestData = request(null, req.body.event);
+    const requestData = requestEvent(req.body.event);
+    console.log(requestData);
     const response = await sendRequest(requestData);
     res.send({ message: response[0].queryResult.fulfillmentText });
   },

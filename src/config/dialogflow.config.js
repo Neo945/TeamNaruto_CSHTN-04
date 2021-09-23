@@ -9,19 +9,25 @@ const languageCode = env.dialogFlowSessionLanguageCode;
 const sessionClient = new dialogflow.SessionsClient();
 const sessionPath = sessionClient.sessionPath(projectId, sessionId);
 
-const request = (text, event) => ({
+const requestMessage = (text) => ({
   session: sessionPath,
   queryInput: {
     text: {
       text: text,
       languageCode: languageCode,
     },
+  },
+});
+const requestEvent = (event) => ({
+  session: sessionPath,
+  queryInput: {
     event: {
       languageCode: languageCode,
       name: event,
     },
   },
 });
+
 const sendRequest = async (request) => {
   const responses = await sessionClient.detectIntent(request);
   console.log("Detected intent");
@@ -33,5 +39,6 @@ const sendRequest = async (request) => {
 
 module.exports = {
   sendRequest,
-  request,
+  requestEvent,
+  requestMessage,
 };
