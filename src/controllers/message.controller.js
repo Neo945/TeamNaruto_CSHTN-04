@@ -4,7 +4,7 @@ const { sendRequest, request } = require("../config/dialogflow.config");
 
 module.exports = {
   saveRequestMessage: async (req, res) => {
-    const requestData = request(req.body.message, req.body.event);
+    const requestData = request(req.body.message, null);
     const response = await sendRequest(requestData);
     const message = await Message.create({
       ...req.body,
@@ -18,5 +18,10 @@ module.exports = {
       .sort({ createdAt: -1 })
       .limit(parseInt(req.query.limit) * 10);
     res.send(messages);
+  },
+  getMessageEvent: async (req, res) => {
+    const requestData = request(null, req.body.event);
+    const response = await sendRequest(requestData);
+    res.send({ message: response[0].queryResult.fulfillmentText });
   },
 };
