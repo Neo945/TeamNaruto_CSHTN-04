@@ -11,6 +11,14 @@ function Chatbot(params) {
   const [messages, setMessages] = React.useState([]);
   console.log(params);
   useEffect(() => {
+    fetch(`http://localhost:5000/api/message/get?limit=${1}`, {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+      mode: "cors",
+    })
+      .then((res) => res.json())
+      .then((data) => console.log(data));
     eventQuery("Welcome");
     // textQuery("What can i buy?");
   }, []);

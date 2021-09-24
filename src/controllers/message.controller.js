@@ -18,20 +18,21 @@ module.exports = {
     res.send({ message, user: req.user.username });
   },
   getMessage: async (req, res) => {
-    const messages = await Message.find({ user: req.user._id })
+    console.log(req.user);
+    const messages = await Message.find({
+      $and: [{ user: req.user?._id }, { $gt: [{ $strLenCP: "$message" }, 1] }],
+    })
       .sort({ createdAt: -1 })
       .limit(parseInt(req.query.limit) * 10);
     res.send(messages);
   },
   getMessageEvent: async (req, res) => {
     const requestData = requestEvent(req.body.event);
-    console.log(requestData);
     const response = await sendRequest(requestData);
     const message = await Message.create({
       user: req.user._id,
       response: response[0].queryResult.fulfillmentText,
     });
-    console.log(message);
     res.send({ message, user: req.user.username });
   },
 };

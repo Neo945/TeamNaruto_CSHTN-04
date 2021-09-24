@@ -1,15 +1,14 @@
 import React from "react";
-import { Redirect } from "react-router-dom";
+import isEmail from "validator/lib/isEmail";
+import { isStrongPassword } from "validator/lib/isStrongPassword";
 
 export default (props) => {
   const [form, setForm] = React.useState({
     email: "",
     password: "",
   });
-  const [redirect, setRedirect] = React.useState(false);
   return (
     <>
-      {redirect && <Redirect to="/chatbot" />}
       <div className="login">
         <div className="login__container">
           <div className="login__container--title">
@@ -20,21 +19,30 @@ export default (props) => {
             <form
               onSubmit={(event) => {
                 event.preventDefault();
-                if (form.email && form.password) {
-                  fetch("http://localhost:5000/api/user/login", {
-                    method: "POST",
-                    credentials: "include",
-                    mode: "cors",
-                    headers: {
-                      "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify(form),
-                  })
-                    .then((res) => res.json())
-                    .then((data) => {
-                      console.log(data);
-                      setRedirect(true);
-                    });
+                if (isEmail(form.email) && isStrongPassword(form.password)) {
+                  console.log(form);
+                  if (form.email && form.password) {
+                    fetch("http://localhost:5000/api/user/login", {
+                      method: "POST",
+                      credentials: "include",
+                      mode: "cors",
+                      headers: {
+                        "Content-Type": "application/json",
+                      },
+                      body: JSON.stringify(form),
+                    })
+                      .then((res) => {
+                        if (res.status === 201) {
+                          window.location.href = "/chatbot";
+                        }
+                        return res.json();
+                      })
+                      .then((data) => {
+                        console.log(data);
+                      });
+                  }
+                } else {
+                  console.log("Please fill all the fields");
                 }
               }}
             >

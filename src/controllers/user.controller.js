@@ -24,7 +24,7 @@ module.exports = {
         res.status(201).json({ mesage: "login Successful" });
       } else {
         res.clearCookie("jwt");
-        res.json({ mesage: "User not found" });
+        res.status(403).json({ mesage: "Login unsuccessfull" });
       }
     });
   },

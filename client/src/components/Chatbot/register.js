@@ -1,5 +1,6 @@
 import React from "react";
-import { Redirect } from "react-router-dom";
+import isEmail from "validator/lib/isEmail";
+import { isStrongPassword } from "validator/lib/isStrongPassword";
 
 export default (props) => {
   const [form, setForm] = React.useState({
@@ -8,29 +9,39 @@ export default (props) => {
     password: "",
     password_confirmation: "",
   });
-  const [redirect, setRedirect] = React.useState(false);
   return (
     <>
-      {redirect && <Redirect to="/chatbot" />}
       <div className="register">
         <h1>Register</h1>
         <form
           onSubmit={(event) => {
             event.preventDefault();
-            fetch("http://localhost:5000/api/user/register", {
-              method: "POST",
-              credentials: "include",
-              mode: "cors",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify(form),
-            })
-              .then((res) => res.json())
-              .then((data) => {
-                console.log(data);
-                setRedirect(true);
-              });
+            if (form.password === form.password_confirmation) {
+              if (isEmail(form.email) && isStrongPassword(form.password)) {
+                fetch("http://localhost:5000/api/user/register", {
+                  method: "POST",
+                  credentials: "include",
+                  mode: "cors",
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                  body: JSON.stringify(form),
+                })
+                  .then((res) => {
+                    if (res.status === 201) {
+                      window.location.href = "/login";
+                    }
+                    res.json();
+                  })
+                  .then((data) => {
+                    console.log(data);
+                  });
+              } else {
+                console.log("Not a valid password or strong password");
+              }
+            } else {
+              console.log("password not match");
+            }
           }}
         >
           <label>

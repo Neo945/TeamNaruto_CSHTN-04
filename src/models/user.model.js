@@ -57,9 +57,11 @@ function getToken(id) {
   });
 }
 userSchema.statics.login = async function (email, password) {
-  const user = await this.findOne({ email });
-  if (await bcrypt.compare(password, user.password)) {
-    return getToken(user._id);
+  const user = await this.findOne({ $and: [{ email }, { password }] });
+  if (user) {
+    if (await bcrypt.compare(password, user.password)) {
+      return getToken(user._id);
+    }
   }
   return null;
 };
