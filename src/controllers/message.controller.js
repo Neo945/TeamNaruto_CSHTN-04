@@ -1,5 +1,7 @@
 const errorHandler = require("../utils/errorHandler");
 const Message = require("../models/message.model");
+const transporter = require("../config/mailer.config");
+
 const {
   sendRequest,
   requestMessage,
@@ -18,6 +20,15 @@ module.exports = {
       user: req.user._id,
       response: response[0].queryResult.fulfillmentText,
     });
+    if (
+      response[0].queryResult.action === "fill.form" &&
+      response[0].queryResult.allRequiredParamsPresent
+    ) {
+      const email = response[0].queryResult.parameters.fields.email.stringValue;
+      const message = `<h1>Thank you for reaching out</h1>
+                    <p>We will contact you soon!!</p>`;
+      console.log(await transporter(email, "Chabot Feedback", message));
+    }
     res.send({ message, user: req.user.username });
   },
   getMessage: async (req, res) => {
@@ -38,11 +49,11 @@ module.exports = {
     }
     const requestData = requestEvent(req.body.event);
     const response = await sendRequest(requestData);
+
     const message = await Message.create({
       user: req.user._id,
       response: response[0].queryResult.fulfillmentText,
     });
-    console.log(response);
     res.send({ message, user: req.user.username });
   },
 };
