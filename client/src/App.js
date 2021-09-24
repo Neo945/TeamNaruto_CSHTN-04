@@ -101,7 +101,7 @@ function App() {
         <Route exact path="/chatbot">
           {user ? (
             <Products
-              usesr={user}
+              user={user}
               products={products}
               handleAddToCart={handleAddToCart}
               handleEmptyCart={handleEmptyCart}
@@ -124,21 +124,16 @@ function App() {
         </Route>
 
         <Route exact path="/cart">
-          {
-            user ?
-            (
-              <Cart
+          {user ? (
+            <Cart
               cart={cart}
               handleUpdateCart={handleUpdateCart}
               handleRemoveCart={handleRemoveCart}
               handleEmptyCart={handleEmptyCart}
             />
-            ):
-            (
+          ) : (
             <Redirect to="/login" />
-            )
-          }
-
+          )}
         </Route>
         <Route exact path="/checkout">
           <Checkout

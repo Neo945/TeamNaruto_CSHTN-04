@@ -7,25 +7,24 @@ import Typography from "@mui/material/Typography";
 import Wave from "react-wavify";
 import chat from "./chat.png";
 import Avatar from "@mui/material/Avatar";
-import SendIcon from '@mui/icons-material/Send';
-import {IconButton} from "@mui/material";
+import SendIcon from "@mui/icons-material/Send";
+import { IconButton } from "@mui/material";
 import { commerce } from "../lib/commerce";
-function Chatbot({handleAddToCart,products}) {
-  const [query,setQuery]=useState()
+function Chatbot({ handleAddToCart, products, user }) {
+  const [query, setQuery] = useState();
   const [messages, setMessages] = React.useState([]);
   // console.log(params);
-  const [lang,setLang]=useState('en-US');
-  const changeLanguage=(lang)=>{
-  setLang(lang)
-};
-// const [products, setProducts] = useState([]);
+  const [lang, setLang] = useState("en-US");
+  const changeLanguage = (lang) => {
+    setLang(lang);
+  };
+  // const [products, setProducts] = useState([]);
 
-// const fetchProducts = async () => {
-//   const { data } = await commerce.products.list();
-//   setProducts(data);
+  // const fetchProducts = async () => {
+  //   const { data } = await commerce.products.list();
+  //   setProducts(data);
 
-// };
-
+  // };
 
   useEffect(() => {
     fetch(`http://localhost:5000/api/message/get?limit=${1}`, {
@@ -49,7 +48,7 @@ function Chatbot({handleAddToCart,products}) {
         method: "POST",
         credentials: "include",
         mode: "cors",
-        body: JSON.stringify({ message: text,language:lang }),
+        body: JSON.stringify({ message: text, language: lang }),
         headers: {
           "Content-type": "application/json; charset=UTF-8",
         },
@@ -65,21 +64,17 @@ function Chatbot({handleAddToCart,products}) {
       };
       // console.log(response);
       setMessages([...messages, convoUser, convoBot]);
-      console.log(response)
-      if (response.product)
-      {
+      console.log(response);
+      if (response.product) {
         // console.log(products)
         // products.map((prod)=>(
         //   prod.name===response.product ? handleAddToCart(prod.id,response.number) : null
         // ))
-        products.forEach(prod => 
-          prod.name===response.product ? handleAddToCart(prod.id,1) : null
+        products.forEach((prod) =>
+          prod.name === response.product ? handleAddToCart(prod.id, 1) : null
         );
-      
-      
       }
-    } 
-    catch (error) {
+    } catch (error) {
       const conversation = {
         who: "bot",
         content: " Error just occured, please check the problem",
@@ -99,7 +94,7 @@ function Chatbot({handleAddToCart,products}) {
         },
         body: JSON.stringify({
           event,
-          language:lang
+          language: lang,
         }),
       });
       const response = await resType.json();
@@ -119,11 +114,10 @@ function Chatbot({handleAddToCart,products}) {
     }
   };
 
-  const sendText=()=>{
-
-textQuery(query);
-setQuery('')
-  }
+  const sendText = () => {
+    textQuery(query);
+    setQuery("");
+  };
   const keyPressHanlder = (e) => {
     if (e.key === "Enter") {
       if (!e.target.value) {
@@ -135,7 +129,6 @@ setQuery('')
       e.target.value = "";
     }
   };
-
 
   //   const renderCards = (cards) => {
   //     return cards.map((card, i) => <Card key={i} cardInfo={card.structValue} />);
@@ -198,68 +191,78 @@ setQuery('')
                 borderBottom: "2px solid #f79902",
               }}
             >
-                            <div style={{float:'right'}}>
-                   
-                    {
-                      lang==="hi" ?
-                      (
-                        <Button
-                        style={{
-                          borderRadius:20,
-                          width:18,
-                          height:15,
-                          color:'rgb(89, 109, 240)',
-                          backgroundColor:'white',
-                          fontSize:10
-                        
-                        }}
-                        variant="contained" onClick={()=>{changeLanguage('hi')}}>हिंदी</Button>
-                      ):
-                      (
-                        <Button
-                        style={{
-                          borderRadius:20,
-                          width:18,
-                          height:15,
-                          backgroundColor:'rgb(89, 109, 240)',
-                          
-                          fontSize:10
-                        
-                        }}
-                        variant="contained" onClick={()=>{changeLanguage('hi')}}>हिंदी</Button>
-                      )
-                    }
+              <div style={{ float: "right" }}>
+                {lang === "hi" ? (
+                  <Button
+                    style={{
+                      borderRadius: 20,
+                      width: 18,
+                      height: 15,
+                      color: "rgb(89, 109, 240)",
+                      backgroundColor: "white",
+                      fontSize: 10,
+                    }}
+                    variant="contained"
+                    onClick={() => {
+                      changeLanguage("hi");
+                    }}
+                  >
+                    हिंदी
+                  </Button>
+                ) : (
+                  <Button
+                    style={{
+                      borderRadius: 20,
+                      width: 18,
+                      height: 15,
+                      backgroundColor: "rgb(89, 109, 240)",
 
-                    {
-                      lang==="en-US" ?
-                      (
-                        <Button
-                    
-                        style={{
-                         borderRadius:20,
-                         color:'rgb(89, 109, 240)',
-                         backgroundColor:'white',
-                         width:10,
-                         height:15,
-                         fontSize:10
-                       }}
-                        variant="contained" onClick={()=>{changeLanguage('en-US')}}>ENG</Button>
-                      ):
-                      (
-                        <Button
-                    
-                        style={{
-                         borderRadius:20,
-                         backgroundColor:'rgb(89, 109, 240)',
-                         width:10,
-                         height:15,
-                         fontSize:10
-                       }}
-                        variant="contained" onClick={()=>{changeLanguage('en-US')}}>ENG</Button>
-                      )
-                    }
-                   
-                      </div>
+                      fontSize: 10,
+                    }}
+                    variant="contained"
+                    onClick={() => {
+                      changeLanguage("hi");
+                    }}
+                  >
+                    हिंदी
+                  </Button>
+                )}
+
+                {lang === "en-US" ? (
+                  <Button
+                    style={{
+                      borderRadius: 20,
+                      color: "rgb(89, 109, 240)",
+                      backgroundColor: "white",
+                      width: 10,
+                      height: 15,
+                      fontSize: 10,
+                    }}
+                    variant="contained"
+                    onClick={() => {
+                      changeLanguage("en-US");
+                    }}
+                  >
+                    ENG
+                  </Button>
+                ) : (
+                  <Button
+                    style={{
+                      borderRadius: 20,
+                      backgroundColor: "rgb(89, 109, 240)",
+                      width: 10,
+                      height: 15,
+                      fontSize: 10,
+                    }}
+                    variant="contained"
+                    onClick={() => {
+                      changeLanguage("en-US");
+                    }}
+                  >
+                    ENG
+                  </Button>
+                )}
+              </div>
               <CardContent>
                 <div>
                   <div
@@ -270,27 +273,25 @@ setQuery('')
                       marginTop: "1.9rem",
                     }}
                   >
-                  <div style={{display:'flex'}}>
-                    <div>
-                    <img
-                      src="https://www.onlinelogomaker.com/blog/wp-content/uploads/2017/06/shopping-online.jpg"
-                      alt=""
-                      height="25px"
-                      style={{borderRadius:20}}
-                      
-                    />
+                    <div style={{ display: "flex" }}>
+                      <div>
+                        <img
+                          src="https://www.onlinelogomaker.com/blog/wp-content/uploads/2017/06/shopping-online.jpg"
+                          alt=""
+                          height="25px"
+                          style={{ borderRadius: 20 }}
+                        />
                       </div>
                       <div>
-                      <Typography variant="h6" component="h6" color="white">
-                      ourGrocery
-                    </Typography>
+                        <Typography variant="h6" component="h6" color="white">
+                          ourGrocery
+                        </Typography>
                       </div>
                     </div>
-                   
-                   
+
                     <br></br>
-                    <Typography variant="h4" component="h4" color="white">
-                      Hi Jay!
+                    <Typography variant="h5" component="h5" color="white">
+                      Hi {user.username}!
                     </Typography>
                   </div>
 
@@ -305,7 +306,7 @@ setQuery('')
                     }}
                   />
                 </div>
-      
+
                 <div
                   style={{
                     height: "100%",
@@ -328,17 +329,38 @@ setQuery('')
                               }}
                               src="https://cdn.dribbble.com/users/2585668/screenshots/10500391/media/2d0a20bb69688cd3fbb1160260e0e691.png?compress=1&resize=400x300"
                             />
-                            <div style={{ color:'white',backgroundColor:'rgb(89, 109, 240)',padding:10,float:'left',borderRadius:'0px 20px 20px 20px'}}>{msg.content}</div>
+                            <div
+                              style={{
+                                color: "white",
+                                backgroundColor: "rgb(89, 109, 240)",
+                                padding: 10,
+                                float: "left",
+                                borderRadius: "0px 20px 20px 20px",
+                              }}
+                            >
+                              {msg.content}
+                            </div>
                           </div>
                         ) : (
-                          <div style={{ clear: "both",position:'relative' }}>
-                            <div style={{position:'absolute',right:'0%'}}>
-                            <Avatar style={{ width: "20px", height: "20px" }}>
-                              {msg.who.toUpperCase()[0]}
-                            </Avatar>
+                          <div style={{ clear: "both", position: "relative" }}>
+                            <div style={{ position: "absolute", right: "0%" }}>
+                              <Avatar style={{ width: "20px", height: "20px" }}>
+                                {msg.who.toUpperCase()[0]}
+                              </Avatar>
                             </div>
 
-                            <div style={{color:'white',backgroundColor:'#f79902',padding:10,float:'right',borderRadius:'20px 0px 20px 20px',marginTop:25}}>{msg.content}</div>
+                            <div
+                              style={{
+                                color: "white",
+                                backgroundColor: "#f79902",
+                                padding: 10,
+                                float: "right",
+                                borderRadius: "20px 0px 20px 20px",
+                                marginTop: 25,
+                              }}
+                            >
+                              {msg.content}
+                            </div>
                           </div>
                         )}
                       </div>
@@ -350,7 +372,7 @@ setQuery('')
                 <input
                   type="text"
                   className="textInput"
-                  onChange={e=>setQuery(e.target.value)}
+                  onChange={(e) => setQuery(e.target.value)}
                   style={{
                     margin: 0,
                     width: "100%",
@@ -364,7 +386,7 @@ setQuery('')
                   placeholder="Send a message..."
                   onKeyPress={keyPressHanlder}
                 />
-                
+
                 <IconButton onClick={sendText}>
                   <SendIcon />
                 </IconButton>
