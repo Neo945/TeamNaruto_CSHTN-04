@@ -24,10 +24,19 @@ module.exports = {
       response[0].queryResult.action === "fill.form" &&
       response[0].queryResult.allRequiredParamsPresent
     ) {
-      const email = response[0].queryResult.parameters.fields.email.stringValue;
+      const email = req.user.email
       const message = `<h1>Thank you for reaching out</h1>
                     <p>We will contact you soon!!</p>`;
       console.log(await transporter(email, "Chabot Feedback", message));
+    }
+    else if(
+      response[0].queryResult.action === "add.items" &&
+      response[0].queryResult.allRequiredParamsPresent
+    ){
+   
+    const product=response[0].queryResult.parameters.fields.item.stringValue
+   
+    return res.send({ message, user: req.user.username,product });
     }
     res.send({ message, user: req.user.username });
   },

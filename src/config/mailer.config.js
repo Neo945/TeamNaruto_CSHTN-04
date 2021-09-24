@@ -8,6 +8,7 @@ async function transport(to, subject, text) {
       pass: "Letslearn1",
     },
   });
+  process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = 0;
   // eslint-disable-next-line no-return-await
   return await transporter.sendMail({
     from: "learnit80@gmail.com",

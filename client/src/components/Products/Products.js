@@ -17,6 +17,6 @@ export default function Products({products,handleAddToCart,handleEmptyCart,user}
           ))}
         </Grid>
       </main>
-  <Chatbot user={user}/>
+  <Chatbot user={user} handleAddToCart={handleAddToCart} products={products}/>
     </>)
 }

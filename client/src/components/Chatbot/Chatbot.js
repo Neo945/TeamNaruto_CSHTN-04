@@ -8,15 +8,25 @@ import Wave from "react-wavify";
 import chat from "./chat.png";
 import Avatar from "@mui/material/Avatar";
 import SendIcon from '@mui/icons-material/Send';
-import {IconButton} from "@mui/material"
-function Chatbot(params) {
+import {IconButton} from "@mui/material";
+import { commerce } from "../lib/commerce";
+function Chatbot({handleAddToCart,products}) {
   const [query,setQuery]=useState()
   const [messages, setMessages] = React.useState([]);
-  console.log(params);
+  // console.log(params);
   const [lang,setLang]=useState('en-US');
   const changeLanguage=(lang)=>{
   setLang(lang)
-}
+};
+// const [products, setProducts] = useState([]);
+
+// const fetchProducts = async () => {
+//   const { data } = await commerce.products.list();
+//   setProducts(data);
+
+// };
+
+
   useEffect(() => {
     fetch(`http://localhost:5000/api/message/get?limit=${1}`, {
       method: "GET",
@@ -53,9 +63,23 @@ function Chatbot(params) {
         who: "bot",
         content: response.message.response,
       };
-      console.log(response);
+      // console.log(response);
       setMessages([...messages, convoUser, convoBot]);
-    } catch (error) {
+      console.log(response)
+      if (response.product)
+      {
+        // console.log(products)
+        // products.map((prod)=>(
+        //   prod.name===response.product ? handleAddToCart(prod.id,response.number) : null
+        // ))
+        products.forEach(prod => 
+          prod.name===response.product ? handleAddToCart(prod.id,1) : null
+        );
+      
+      
+      }
+    } 
+    catch (error) {
       const conversation = {
         who: "bot",
         content: " Error just occured, please check the problem",
@@ -153,7 +177,7 @@ setQuery('')
   //       return null;
   //     }
   //   };
-  console.log(messages);
+  // console.log(messages);
   return (
     <>
       {!show ? (
