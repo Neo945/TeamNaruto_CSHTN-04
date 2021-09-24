@@ -10,14 +10,9 @@ import Avatar from "@mui/material/Avatar";
 import SendIcon from "@mui/icons-material/Send";
 import { IconButton } from "@mui/material";
 import { commerce } from "../lib/commerce";
-<<<<<<< HEAD
-function Chatbot({ handleAddToCart, products, user }) {
-  const [query, setQuery] = useState();
-=======
 import { Link } from "react-router-dom";
-function Chatbot({handleAddToCart,products,handleRemoveCart,cart}) {
-  const [query,setQuery]=useState()
->>>>>>> a2634cdbf2517f7bf7cc662710dafb905b82d8a3
+function Chatbot({ handleAddToCart, products, handleRemoveCart, cart, user }) {
+  const [query, setQuery] = useState();
   const [messages, setMessages] = React.useState([]);
   // console.log(params);
   const [lang, setLang] = useState("en-US");
@@ -70,14 +65,8 @@ function Chatbot({handleAddToCart,products,handleRemoveCart,cart}) {
       };
       // console.log(response);
       setMessages([...messages, convoUser, convoBot]);
-<<<<<<< HEAD
-      console.log(response);
+      console.log(cart);
       if (response.product) {
-=======
-      console.log(cart)
-      if (response.product)
-      {
->>>>>>> a2634cdbf2517f7bf7cc662710dafb905b82d8a3
         // console.log(products)
         // products.map((prod)=>(
         //   prod.name===response.product ? handleAddToCart(prod.id,response.number) : null
@@ -86,18 +75,16 @@ function Chatbot({handleAddToCart,products,handleRemoveCart,cart}) {
           prod.name === response.product ? handleAddToCart(prod.id, 1) : null
         );
       }
-      if (response.Removeproduct)
-      {
-        console.log(response)
-        console.log(products)
-        cart.line_items.forEach(prod => 
-          prod.product_name===response.Removeproduct ? handleRemoveCart(prod.id) : null
+      if (response.Removeproduct) {
+        console.log(response);
+        console.log(products);
+        cart.line_items.forEach((prod) =>
+          prod.product_name === response.Removeproduct
+            ? handleRemoveCart(prod.id)
+            : null
         );
-      
-      
       }
-    } 
-    catch (error) {
+    } catch (error) {
       const conversation = {
         who: "bot",
         content: " Error just occured, please check the problem",
@@ -338,42 +325,48 @@ function Chatbot({handleAddToCart,products,handleRemoveCart,cart}) {
                     maxHeight: 200,
                   }}
                 >
-                  <div style={{display:'flex',justifyContent:'space-evenly'}}>
-                  <div>
-                  <Button
-                  style={{
-                    border:'1px solid #f79902',
-                    color:'#f79902'
-                  }}
-                  onClick={()=>{
-                    eventQuery("add_product")
-                  }}
-                  >Add</Button>
+                  <div
+                    style={{ display: "flex", justifyContent: "space-evenly" }}
+                  >
+                    <div>
+                      <Button
+                        style={{
+                          border: "1px solid #f79902",
+                          color: "#f79902",
+                        }}
+                        onClick={() => {
+                          eventQuery("add_product");
+                        }}
+                      >
+                        Add
+                      </Button>
+                    </div>
+                    <div>
+                      <Button
+                        style={{
+                          border: "1px solid #f79902",
+                          color: "#f79902",
+                        }}
+                        onClick={() => {
+                          eventQuery("remove_product");
+                        }}
+                      >
+                        Remove
+                      </Button>
+                    </div>
+                    <div>
+                      <Button
+                        component={Link}
+                        to="/cart"
+                        style={{
+                          border: "1px solid #f79902",
+                          color: "#f79902",
+                        }}
+                      >
+                        View
+                      </Button>
+                    </div>
                   </div>
-                  <div>
-                  <Button
-                    style={{
-                      border:'1px solid #f79902',
-                      color:'#f79902'
-                    }}
-                    onClick={()=>{
-                      eventQuery("remove_product")
-                    }}
-                  >Remove</Button>
-                  </div>
-                  <div>
-                    
-                  <Button
-                  component={Link}
-                  to="/cart"
-                    style={{
-                      border:'1px solid #f79902',
-                      color:'#f79902'
-                    }}
-                  >View</Button>
-                  </div>
-                  </div>
- 
 
                   {messages.map((msg, i) => (
                     <div key={i}>
