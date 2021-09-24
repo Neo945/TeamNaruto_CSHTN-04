@@ -1,0 +1,10 @@
+.textInput {
+  border: none;
+}
+.textInput:hover {
+  border: white !important;
+}
+
+.textInput:focus {
+  outline: none;
+}
