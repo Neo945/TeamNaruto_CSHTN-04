@@ -7,8 +7,10 @@ import Typography from "@mui/material/Typography";
 import Wave from "react-wavify";
 import chat from "./chat.png";
 import Avatar from "@mui/material/Avatar";
-
+import SendIcon from '@mui/icons-material/Send';
+import {IconButton} from "@mui/material"
 function Chatbot(params) {
+  const [query,setQuery]=useState()
   const [messages, setMessages] = React.useState([]);
   console.log(params);
   const [lang,setLang]=useState('en-US');
@@ -93,6 +95,11 @@ function Chatbot(params) {
     }
   };
 
+  const sendText=()=>{
+
+textQuery(query);
+setQuery('')
+  }
   const keyPressHanlder = (e) => {
     if (e.key === "Enter") {
       if (!e.target.value) {
@@ -104,6 +111,7 @@ function Chatbot(params) {
       e.target.value = "";
     }
   };
+
 
   //   const renderCards = (cards) => {
   //     return cards.map((card, i) => <Card key={i} cardInfo={card.structValue} />);
@@ -156,7 +164,7 @@ function Chatbot(params) {
               border: "none",
               position: "absolute",
               right: "5%",
-              bottom: "20%",
+              bottom: "15%",
             }}
           >
             <Card
@@ -167,25 +175,66 @@ function Chatbot(params) {
               }}
             >
                             <div style={{float:'right'}}>
-                    <Button
-                    style={{
-                      borderRadius:20,
                    
-                      height:15,
-                      backgroundColor:'rgb(89, 109, 240)',
-                      fontSize:10
+                    {
+                      lang==="hi" ?
+                      (
+                        <Button
+                        style={{
+                          borderRadius:20,
+                          width:18,
+                          height:15,
+                          color:'rgb(89, 109, 240)',
+                          backgroundColor:'white',
+                          fontSize:10
+                        
+                        }}
+                        variant="contained" onClick={()=>{changeLanguage('hi')}}>हिंदी</Button>
+                      ):
+                      (
+                        <Button
+                        style={{
+                          borderRadius:20,
+                          width:18,
+                          height:15,
+                          backgroundColor:'rgb(89, 109, 240)',
+                          
+                          fontSize:10
+                        
+                        }}
+                        variant="contained" onClick={()=>{changeLanguage('hi')}}>हिंदी</Button>
+                      )
+                    }
+
+                    {
+                      lang==="en-US" ?
+                      (
+                        <Button
                     
-                    }}
-                    variant="contained" onClick={()=>{changeLanguage('hi')}}>हिंदी</Button>
-                    <Button
-                     style={{
-                      borderRadius:20,
-                      backgroundColor:'rgb(89, 109, 240)',
-                      
-                      height:15,
-                      fontSize:10
-                    }}
-                     variant="contained" onClick={()=>{changeLanguage('en-US')}}>ENG</Button>
+                        style={{
+                         borderRadius:20,
+                         color:'rgb(89, 109, 240)',
+                         backgroundColor:'white',
+                         width:10,
+                         height:15,
+                         fontSize:10
+                       }}
+                        variant="contained" onClick={()=>{changeLanguage('en-US')}}>ENG</Button>
+                      ):
+                      (
+                        <Button
+                    
+                        style={{
+                         borderRadius:20,
+                         backgroundColor:'rgb(89, 109, 240)',
+                         width:10,
+                         height:15,
+                         fontSize:10
+                       }}
+                        variant="contained" onClick={()=>{changeLanguage('en-US')}}>ENG</Button>
+                      )
+                    }
+                   
                       </div>
               <CardContent>
                 <div>
@@ -197,11 +246,24 @@ function Chatbot(params) {
                       marginTop: "1.9rem",
                     }}
                   >
-      
-                    
-                    <Typography variant="h6" component="h6" color="white">
+                  <div style={{display:'flex'}}>
+                    <div>
+                    <img
+                      src="https://www.onlinelogomaker.com/blog/wp-content/uploads/2017/06/shopping-online.jpg"
+                      alt=""
+                      height="25px"
+                      style={{borderRadius:20}}
+                      
+                    />
+                      </div>
+                      <div>
+                      <Typography variant="h6" component="h6" color="white">
                       ourGrocery
                     </Typography>
+                      </div>
+                    </div>
+                   
+                   
                     <br></br>
                     <Typography variant="h4" component="h4" color="white">
                       Hi Jay!
@@ -219,7 +281,7 @@ function Chatbot(params) {
                     }}
                   />
                 </div>
-                <hr></hr>
+      
                 <div
                   style={{
                     height: "100%",
@@ -264,6 +326,7 @@ function Chatbot(params) {
                 <input
                   type="text"
                   className="textInput"
+                  onChange={e=>setQuery(e.target.value)}
                   style={{
                     margin: 0,
                     width: "100%",
@@ -277,7 +340,10 @@ function Chatbot(params) {
                   placeholder="Send a message..."
                   onKeyPress={keyPressHanlder}
                 />
-                <Button size="small">send</Button>
+                
+                <IconButton onClick={sendText}>
+                  <SendIcon />
+                </IconButton>
               </CardActions>
             </Card>
           </div>

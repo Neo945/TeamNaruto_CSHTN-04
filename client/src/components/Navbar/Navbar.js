@@ -35,7 +35,7 @@ export default function Navbar({ totalItems }) {
             />
             ourGrocery
           </Typography>
-          <div className={classes.grow} />
+         
           {location.pathname === "/" && (
             <>
               <div className={classes.button}>
@@ -76,7 +76,7 @@ export default function Navbar({ totalItems }) {
               Logout
             </Button>
             
-            <div className={classes.grow} />
+            
                     
             <div className={classes.button}>
             {/* <IconButton component={Link} to="/cart" aria-label="Show cart items" color="inherit">
