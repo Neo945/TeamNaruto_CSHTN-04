@@ -201,7 +201,10 @@ function Chatbot(params) {
                 >
                   {/* {renderMessage(messages)} */}
                   {messages.map((msg, i) => (
-                    <div key={i}>{msg.content}</div>
+                    <div key={i}>
+                      <div>{msg.who}</div>
+                      <div>{msg.content}</div>
+                    </div>
                   ))}
                 </div>
               </CardContent>
