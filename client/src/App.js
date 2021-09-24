@@ -105,6 +105,7 @@ function App() {
               products={products}
               handleAddToCart={handleAddToCart}
               handleEmptyCart={handleEmptyCart}
+              handleRemoveCart={handleRemoveCart}
             />
           ) : (
             <Redirect to="/login" />
@@ -113,10 +114,12 @@ function App() {
         <Route exact path="/">
           {user ? (
             <Products
+            cart={cart}
               user={user}
               products={products}
               handleAddToCart={handleAddToCart}
               handleEmptyCart={handleEmptyCart}
+              handleRemoveCart={handleRemoveCart}
             />
           ) : (
             <Redirect to="/login" />

@@ -3,7 +3,7 @@ import React from 'react'
 import Chatbot from '../Chatbot/Chatbot.js';
 import Product from './Product.js'
 import useStyles from "./stylesProducts"
-export default function Products({products,handleAddToCart,handleEmptyCart,user}) {
+export default function Products({cart,products,handleAddToCart,handleEmptyCart,user,handleRemoveCart}) {
     const classes=useStyles();
 
     return (<>
@@ -17,6 +17,6 @@ export default function Products({products,handleAddToCart,handleEmptyCart,user}
           ))}
         </Grid>
       </main>
-  <Chatbot user={user} handleAddToCart={handleAddToCart} products={products}/>
+  <Chatbot cart={cart} user={user} handleAddToCart={handleAddToCart} products={products} handleRemoveCart={handleRemoveCart}/>
     </>)
 }

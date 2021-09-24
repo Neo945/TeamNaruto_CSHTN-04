@@ -38,6 +38,15 @@ module.exports = {
    
     return res.send({ message, user: req.user.username,product });
     }
+    else if(
+      response[0].queryResult.action === "remove.items" &&
+      response[0].queryResult.allRequiredParamsPresent
+    ){
+   
+    const Removeproduct=response[0].queryResult.parameters.fields.item.stringValue
+   
+    return res.send({ message, user: req.user.username,Removeproduct });
+    }
     res.send({ message, user: req.user.username });
   },
   getMessage: async (req, res) => {
