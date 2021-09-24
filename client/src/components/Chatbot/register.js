@@ -37,10 +37,10 @@ export default (props) => {
                     console.log(data);
                   });
               } else {
-                console.log("Not a valid password or strong password");
+                alert("Not a valid email or strong password");
               }
             } else {
-              console.log("password not match");
+              alert("password not match");
             }
           }}
         >

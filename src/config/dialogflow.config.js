@@ -1,33 +1,28 @@
 const dialogflow = require("dialogflow");
+
 const env = require("./config");
-
-
 
 const projectId = env.project_id;
 const sessionId = env.dialogFlowSessionID;
 const languageCode = env.dialogFlowSessionLanguageCode;
 
-const sessionClient = new dialogflow.SessionsClient(
-  {
-    keyFilename:"D:\\JAY_FOLDERS\\JAY\\Dashathon\\TeamNaruto_working\\TeamNaruto_CSHTN-04-main\\src\\config\\key.json"
-  }
-);
+const sessionClient = new dialogflow.SessionsClient();
 const sessionPath = sessionClient.sessionPath(projectId, sessionId);
 
-const requestMessage = (text,lang) => ({
+const requestMessage = (text) => ({
   session: sessionPath,
   queryInput: {
     text: {
       text: text,
-      languageCode: lang,
+      languageCode: languageCode,
     },
   },
 });
-const requestEvent = (event,lang) => ({
+const requestEvent = (event) => ({
   session: sessionPath,
   queryInput: {
     event: {
-      languageCode: lang,
+      languageCode: languageCode,
       name: event,
     },
   },
@@ -39,7 +34,6 @@ const sendRequest = async (request) => {
   const result = responses[0].queryResult;
   console.log(`  Query: ${result.queryText}`);
   console.log(`  Response: ${result.fulfillmentText}`);
-
   return responses;
 };
 
@@ -47,8 +41,4 @@ module.exports = {
   sendRequest,
   requestEvent,
   requestMessage,
-
 };
-
-
-

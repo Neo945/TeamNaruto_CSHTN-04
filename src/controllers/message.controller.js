@@ -13,7 +13,7 @@ module.exports = {
     if (!req.user) {
       return res.status(401).send({ message: "Unauthorized" });
     }
-    const requestData = requestMessage(req.body.message,req.body.language);
+    const requestData = requestMessage(req.body.message, req.body.language);
     const response = await sendRequest(requestData);
     const message = await Message.create({
       ...req.body,
@@ -24,7 +24,7 @@ module.exports = {
       response[0].queryResult.action === "fill.form" &&
       response[0].queryResult.allRequiredParamsPresent
     ) {
-      const email = response[0].queryResult.parameters.fields.email.stringValue;
+      const email = req.user.email;
       const message = `<h1>Thank you for reaching out</h1>
                     <p>We will contact you soon!!</p>`;
       console.log(await transporter(email, "Chabot Feedback", message));
@@ -47,7 +47,7 @@ module.exports = {
     if (!req.user) {
       return res.status(401).send({ message: "Unauthorized" });
     }
-    const requestData = requestEvent(req.body.event,req.body.language);
+    const requestData = requestEvent(req.body.event, req.body.language);
     const response = await sendRequest(requestData);
 
     const message = await Message.create({

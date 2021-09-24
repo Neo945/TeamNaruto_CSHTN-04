@@ -33,16 +33,13 @@ export default (props) => {
                     })
                       .then((res) => {
                         if (res.status === 201) {
-                          window.location.href = "/chatbot";
+                          window.location.href = "/";
                         }
                         return res.json();
                       })
                       .then((data) => {
                         console.log(data);
-                        localStorage.setItem(
-                          "token",
-                          JSON.stringify(data.user)
-                        );
+                        localStorage.setItem("user", JSON.stringify(data.user));
                       });
                   }
                 } else {
