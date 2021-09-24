@@ -1,6 +1,6 @@
 import React from "react";
 import isEmail from "validator/lib/isEmail";
-import { isStrongPassword } from "validator/lib/isStrongPassword";
+import isStrongPassword from "validator/lib/isStrongPassword";
 
 export default (props) => {
   const [form, setForm] = React.useState({

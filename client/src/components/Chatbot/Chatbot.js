@@ -6,6 +6,7 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Wave from "react-wavify";
 import chat from "./chat.png";
+import Avatar from "@mui/material/Avatar";
 
 function Chatbot(params) {
   const [messages, setMessages] = React.useState([]);
@@ -202,8 +203,28 @@ function Chatbot(params) {
                   {/* {renderMessage(messages)} */}
                   {messages.map((msg, i) => (
                     <div key={i}>
-                      <div>{msg.who}</div>
-                      <div>{msg.content}</div>
+                      <div>
+                        {msg.who === "bot" ? (
+                          <div>
+                            <Avatar
+                              style={{
+                                width: "20px",
+                                height: "20px",
+                                clear: "both",
+                              }}
+                              src="https://cdn.dribbble.com/users/2585668/screenshots/10500391/media/2d0a20bb69688cd3fbb1160260e0e691.png?compress=1&resize=400x300"
+                            />
+                            <div>{msg.content}</div>
+                          </div>
+                        ) : (
+                          <div style={{ float: "right", clear: "both" }}>
+                            <Avatar style={{ width: "20px", height: "20px" }}>
+                              {msg.who.toUpperCase()[0]}
+                            </Avatar>
+                            <div>{msg.content}</div>
+                          </div>
+                        )}
+                      </div>
                     </div>
                   ))}
                 </div>

@@ -21,10 +21,13 @@ module.exports = {
         res.cookie("jwt", token, {
           maxAge: 259200000,
         });
-        res.status(201).json({ mesage: "login Successful" });
+        res.status(201).json({
+          mesage: "login Successful",
+          user: await User.findOne({ email }),
+        });
       } else {
         res.clearCookie("jwt");
-        res.status(403).json({ mesage: "Login unsuccessfull" });
+        res.status(403).json({ mesage: "Login unsuccessful" });
       }
     });
   },
